@@ -10,6 +10,6 @@ const UserSchema = new mongoose.Schema<IUser>({
 
 export default class UserModel extends Model<IUser> {
   constructor() {
-    super(mongoose.model('User', UserSchema));
+    super(mongoose.model('Users', UserSchema));
   }
 }

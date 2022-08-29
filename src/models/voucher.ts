@@ -22,6 +22,6 @@ const VoucherSchema = new mongoose.Schema<IVoucher>({
 
 export default class VoucherModel extends Model<IVoucher> {
   constructor() {
-    super(mongoose.model('Voucher', VoucherSchema));
+    super(mongoose.model('Vouchers', VoucherSchema));
   }
 }
