@@ -22,6 +22,8 @@ export default class VoucherService extends Service<IVoucher> {
   };
 
   public findAll = async (): Promise<IVoucher[]> => this._model.findAll();
+
+  public findAllByResponsible = async (userId: string): Promise<IVoucher[]> => this._model.findAllByResponsible(userId);
   
   public findById = async (id: string): Promise<IVoucher | null> => {
     const findVoucher = await this._model.findById(id);

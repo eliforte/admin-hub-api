@@ -5,7 +5,7 @@ import VoucherService from '../services/voucher';
 import { IVoucher } from '../utils/interfaces/IVoucher';
 
 export default class ServiceController extends Controller<IVoucher> {
-  constructor(service: Service<IVoucher> = new VoucherService()) {
+  constructor(service = new VoucherService()) {
     super(service);
   }
 
@@ -18,4 +18,13 @@ export default class ServiceController extends Controller<IVoucher> {
       next(error);
     }
   };
+
+  public findByResponsible = async (req: Req, res: Res, next: NextFunction): Promise<typeof res | void> => {
+    try {
+      const { _id } = req.user;
+      const result = await this._service
+    } catch (error) {
+      
+    }
+  }
 }
