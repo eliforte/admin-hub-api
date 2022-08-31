@@ -13,11 +13,11 @@ export default class VoucherService extends Service<IVoucher> {
   public create = async (voucher: IVoucher): Promise<IVoucher> => {
     const currentDate = new Date();
     const nextDate = `${
-      voucher.payment_day
-    }/${
-      currentDate.getMonth() + 1
-    }/${
       currentDate.getFullYear()
+    }-${
+      currentDate.getMonth() + 1
+    }-${
+      voucher.payment_day
     }`
 
     const setVoucherInfos = {

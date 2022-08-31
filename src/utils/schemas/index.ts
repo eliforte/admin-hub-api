@@ -21,7 +21,7 @@ export const SCHEMAVoucher = Joi.object({
   total: Joi.number().required(),
   quantity_installments_paid: Joi.number().required(),
   payment_day: Joi.number().allow(null).required(),
-  last_payment: Joi.date().required(),
-  next_payment: Joi.date().allow(null),
+  last_payment: Joi.string().required(),
+  next_payment: Joi.string().allow(null),
   installment_value: Joi.number().allow(null).required(),
 });
