@@ -15,7 +15,7 @@ export default class VoucherService extends Service<IVoucher> {
     const formatDateForNextPayment = `${
       currentDate.getFullYear()
     }-${
-      currentDate.getMonth() + 1
+      currentDate.getMonth() + 2
     }-${
       voucher.payment_day
     }`
