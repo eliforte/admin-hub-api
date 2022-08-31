@@ -22,7 +22,7 @@ export default class VoucherService extends Service<IVoucher> {
 
     const nextDate = voucher.form_of_payment !== 'Parcelamento'
     ? formatDateForNextPayment
-    : null;
+    : '';
 
     const setVoucherInfos = {
       ...voucher,
