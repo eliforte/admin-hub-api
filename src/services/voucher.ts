@@ -11,10 +11,15 @@ export default class VoucherService extends Service<IVoucher> {
   }
 
   public create = async (voucher: IVoucher): Promise<IVoucher> => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+    const nextDate = new Date(currentYear, currentMonth, Number(voucher.payment_day));
+
     const setVoucherInfos = {
       ...voucher,
-      createdAt: new Date(),
       updatedAt: null,
+      quantity_installments: voucher.quantity_installments || 0,
+      next_payment: nextDate || null,
     } as IVoucher;
 
     const newVoucher = await this._model.create(setVoucherInfos);
@@ -23,8 +28,10 @@ export default class VoucherService extends Service<IVoucher> {
 
   public findAll = async (): Promise<IVoucher[]> => this._model.findAll();
 
-  public findAllByResponsible = async (userId: string): Promise<IVoucher[]> => this._model.findAllByResponsible(userId);
-  
+  public findAllByResponsible = async (
+    userId: string,
+  ): Promise<IVoucher[]> => this._model.findAllByResponsible(userId);
+
   public findById = async (id: string): Promise<IVoucher | null> => {
     const findVoucher = await this._model.findById(id);
     if (!findVoucher) throw VOUCHER_NOT_EXIST;
@@ -37,7 +44,7 @@ export default class VoucherService extends Service<IVoucher> {
     const updatedVoucher = await this._model.update(id, voucher);
     return updatedVoucher;
   };
-  
+
   public delete = async (id: string): Promise<IVoucher | null> => {
     if (!isValidObjectId(id)) throw VOUCHER_NOT_EXIST;
     const deletedVoucher = await this._model.delete(id);
