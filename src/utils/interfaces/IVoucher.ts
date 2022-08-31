@@ -9,8 +9,8 @@ export interface IVoucher {
   total: number;
   quantity_installments_paid: number;
   payment_day: number | null;
-  last_payment: Date;
-  next_payment: Date | null;
+  last_payment: string;
+  next_payment: string | null;
   installment_value: number | null;
   responsible_id?: string;
   updated_at: Date,
