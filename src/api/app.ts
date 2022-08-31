@@ -4,7 +4,6 @@ import cors from 'cors';
 export default class App {
   public _app: express.Application;
 
-
   constructor() {
     this._app = express();
     this._app.use(express.json());

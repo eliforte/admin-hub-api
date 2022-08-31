@@ -8,7 +8,7 @@ const VoucherSchema = new mongoose.Schema<IVoucher>({
   plan: { type: String, required: true },
   payment_method: { type: String, required: true },
   form_of_payment: { type: String, required: true },
-  quantity_installments: { type: Number, required: true },
+  quantity_installments: { type: Number },
   total: { type: Number, required: true },
   quantity_installments_paid: { type: Number, required: true },
   payment_day: { type: Number, required: true },

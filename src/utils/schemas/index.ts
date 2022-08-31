@@ -13,8 +13,7 @@ export const SCHEMAUser = Joi.object({
 
 export const SCHEMAVoucher = Joi.object({
   type: Joi.string().required(),
-  pacient_firstname: Joi.string().required(),
-  pacient_lastname: Joi.string().required(),
+  pacient_fullname: Joi.string().required(),
   plan: Joi.string().required(),
   payment_method: Joi.string().required(),
   form_of_payment: Joi.string().required(),

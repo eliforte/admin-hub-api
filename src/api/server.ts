@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import App from './app';
 import UserRoutes from '../routes/users';
@@ -16,8 +16,8 @@ const databaseUrl = process.env.NODE_ENV === 'production'
 mongoose.connect(`${databaseUrl}`);
 
 const corsOptions = {
-  origin: [`${process.env.URL_PROD}`, `${process.env.URL_DEV}`, 'http://localhost:3000']
-}
+  origin: [`${process.env.URL_PROD}`, `${process.env.URL_DEV}`, 'http://localhost:3000'],
+};
 
 app.useCors(corsOptions);
 app.newRoutes(new UserRoutes().router);
