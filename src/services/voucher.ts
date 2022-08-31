@@ -4,6 +4,7 @@ import VoucherModel from '../models/voucher';
 import { Service } from '.';
 import { IVoucher } from '../utils/interfaces/IVoucher';
 import { VOUCHER_NOT_EXIST } from '../utils/errors';
+import { addLeadingZeros } from '../helpers/addLeadingZeros';
 
 export default class VoucherService extends Service<IVoucher> {
   constructor(model: Model<IVoucher> = new VoucherModel()) {
@@ -15,7 +16,7 @@ export default class VoucherService extends Service<IVoucher> {
     const formatDateForNextPayment = `${
       currentDate.getFullYear()
     }-${
-      currentDate.getMonth() + 2
+      addLeadingZeros(currentDate.getMonth() + 2, 2)
     }-${
       voucher.payment_day
     }`
