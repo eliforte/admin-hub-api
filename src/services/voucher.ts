@@ -12,7 +12,7 @@ export default class VoucherService extends Service<IVoucher> {
 
   public create = async (voucher: IVoucher): Promise<IVoucher> => {
     const currentDate = new Date();
-    const nextDate = `${
+    const formatDateForNextPayment = `${
       currentDate.getFullYear()
     }-${
       currentDate.getMonth() + 1
@@ -20,11 +20,15 @@ export default class VoucherService extends Service<IVoucher> {
       voucher.payment_day
     }`
 
+    const nextDate = voucher.payment_method !== 'Cartão de crédito'
+    ? formatDateForNextPayment
+    : null;
+
     const setVoucherInfos = {
       ...voucher,
       updatedAt: null,
       quantity_installments: voucher.quantity_installments || 0,
-      next_payment: nextDate || null,
+      next_payment: nextDate,
     } as IVoucher;
 
     const newVoucher = await this._model.create(setVoucherInfos);
