@@ -13,7 +13,7 @@ const VoucherSchema = new mongoose.Schema<IVoucher>({
   quantity_installments_paid: { type: Number, required: true },
   payment_day: { type: Number, required: true },
   last_payment: { type: String, required: true },
-  next_payment: { type: String, required: true },
+  next_payment: { type: String },
   installment_value: { type: Number, required: true },
   responsible_id: { type: String, required: true },
   updated_at: { type: Date, require: true },
