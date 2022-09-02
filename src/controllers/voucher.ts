@@ -25,6 +25,7 @@ export default class ServiceController {
     try {
       const { _id } = req.user;
       const result = await this._service.findAllByResponsible(_id);
+      res.status(200).json(result);
     } catch (error) {
       next(error);
     }

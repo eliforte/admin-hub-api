@@ -32,7 +32,7 @@ export default class VoucherRoutes {
     this._router.get(
       this._path,
       Auth.verifyToken,
-      this._controller.findAll,
+      this._controller.findByResponsible,
     );
     this._router.post(
       this._path,
