@@ -1,23 +1,29 @@
-import RouteGenerator from './routeGenerator';
-import Controller from '../controllers';
+import { Router } from 'express';
 import UserController from '../controllers/users';
 import Validate from '../middlewares/validations/validate';
 import ValidadeUser from '../middlewares/validations/user';
 import Auth from '../utils/auth/token';
-import { IUser } from '../utils/interfaces/IUser';
 
-export default class UserRoutes extends RouteGenerator<IUser> {
+export default class UserRoutes {
+  protected _router: Router;
+
   protected _path: string = '/users';
+
+  protected _controller: UserController;
 
   private _validate: Validate;
 
   constructor(
-    controller: Controller<IUser> = new UserController(),
+    controller: UserController = new UserController(),
     validate: Validate = new ValidadeUser(),
   ) {
-    super(controller);
+    this._controller = controller;
     this._validate = validate;
     this._routes();
+  }
+
+  public get router(): Router {
+    return this._router;
   }
 
   protected _routes(): void {
@@ -25,11 +31,6 @@ export default class UserRoutes extends RouteGenerator<IUser> {
       `${this._path}/:id`,
       Auth.verifyToken,
       this._controller.findOne,
-    );
-    this._router.get(
-      this._path,
-      Auth.verifyToken,
-      this._controller.findAll,
     );
     this._router.post(
       this._path,

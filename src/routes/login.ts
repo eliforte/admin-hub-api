@@ -1,17 +1,17 @@
 import { Router } from 'express';
-import LoginController from '../controllers/loginController';
+import UserController from '../controllers/users';
 import Validate from '../middlewares/validations/validate';
 import ValidadeLogin from '../middlewares/validations/login';
 
 export default class LoginRoutes {
   private _router: Router;
 
-  private _controller: LoginController;
+  private _controller: UserController;
 
   private _validate: Validate;
 
   constructor(
-    controller: LoginController = new LoginController(),
+    controller: UserController = new UserController(),
     validate: Validate = new ValidadeLogin(),
   ) {
     this._router = Router();

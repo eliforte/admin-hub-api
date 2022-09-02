@@ -1,21 +1,23 @@
-import RouteGenerator from './routeGenerator';
-import Controller from '../controllers';
+import { Router } from 'express';
 import VoucherController from '../controllers/voucher';
 import Validate from '../middlewares/validations/validate';
 import ValidadeVoucher from '../middlewares/validations/voucher';
 import Auth from '../utils/auth/token';
-import { IVoucher } from '../utils/interfaces/IVoucher';
 
-export default class VoucherRoutes extends RouteGenerator<IVoucher> {
+export default class VoucherRoutes {
+  protected _router: Router;
+
   protected _path: string = '/voucher';
+
+  protected _controller: VoucherController;
 
   private _validate: Validate;
 
   constructor(
-    controller: Controller<IVoucher> = new VoucherController(),
+    controller: VoucherController = new VoucherController(),
     validate: Validate = new ValidadeVoucher(),
   ) {
-    super(controller);
+    this._controller = controller;
     this._validate = validate;
     this._routes();
   }
