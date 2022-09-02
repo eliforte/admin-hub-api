@@ -1,14 +1,14 @@
 import { isValidObjectId } from 'mongoose';
-import Model from '../models';
 import VoucherModel from '../models/voucher';
-import { Service } from '.';
 import { IVoucher } from '../utils/interfaces/IVoucher';
 import { VOUCHER_NOT_EXIST } from '../utils/errors';
 import { addLeadingZeros } from '../helpers/addLeadingZeros';
 
-export default class VoucherService extends Service<IVoucher> {
-  constructor(model: Model<IVoucher> = new VoucherModel()) {
-    super(model);
+export default class VoucherService {
+  protected _model: VoucherModel;
+
+  constructor(model: VoucherModel = new VoucherModel()) {
+    this._model = model;
   }
 
   public create = async (voucher: IVoucher): Promise<IVoucher> => {
@@ -39,7 +39,7 @@ export default class VoucherService extends Service<IVoucher> {
   public findAll = async (): Promise<IVoucher[]> => this._model.findAll();
 
   public findAllByResponsible = async (
-    userId: string,
+    userId: string | undefined,
   ): Promise<IVoucher[]> => this._model.findAllByResponsible(userId);
 
   public findById = async (id: string): Promise<IVoucher | null> => {

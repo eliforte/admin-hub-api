@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import Model from '../models';
 import UserModel from '../models/user';
 import Auth from '../utils/auth/token';
 import { IUser } from '../utils/interfaces/IUser';
@@ -7,9 +6,9 @@ import { ILogin } from '../utils/interfaces/ILogin';
 import { USER_NOT_EXIST, INCORRECT_USER } from '../utils/errors';
 
 export default class LoginServce {
-  private _model: Model<IUser>;
+  private _model: UserModel;
 
-  constructor(model: Model<IUser> = new UserModel()) {
+  constructor(model: UserModel = new UserModel()) {
     this._model = model;
   }
 
