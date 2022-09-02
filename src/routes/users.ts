@@ -5,11 +5,11 @@ import ValidadeUser from '../middlewares/validations/user';
 import Auth from '../utils/auth/token';
 
 export default class UserRoutes {
-  protected _router: Router;
+  private _router: Router;
 
-  protected _path: string = '/users';
+  private _path: string = '/users';
 
-  protected _controller: UserController;
+  private _controller: UserController;
 
   private _validate: Validate;
 
@@ -17,16 +17,13 @@ export default class UserRoutes {
     controller: UserController = new UserController(),
     validate: Validate = new ValidadeUser(),
   ) {
+    this._router = Router();
     this._controller = controller;
     this._validate = validate;
     this._routes();
   }
 
-  public get router(): Router {
-    return this._router;
-  }
-
-  protected _routes(): void {
+  private _routes(): void {
     this._router.get(
       `${this._path}/:id`,
       Auth.verifyToken,
@@ -48,5 +45,9 @@ export default class UserRoutes {
       Auth.verifyToken,
       this._controller.delete,
     );
+  }
+
+  public get router(): Router {
+    return this._router;
   }
 }

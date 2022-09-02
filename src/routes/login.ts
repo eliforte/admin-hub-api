@@ -21,7 +21,11 @@ export default class LoginRoutes {
   }
 
   private _routes(): void {
-    this._router.post('/login', this._validate.validateReqBody, this._controller.login);
+    this._router.post(
+      '/login',
+      this._validate.validateReqBody,
+      this._controller.login,
+    );
   }
 
   public get router(): Router {

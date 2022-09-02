@@ -5,11 +5,11 @@ import ValidadeVoucher from '../middlewares/validations/voucher';
 import Auth from '../utils/auth/token';
 
 export default class VoucherRoutes {
-  protected _router: Router;
+  private _router: Router;
 
-  protected _path: string = '/voucher';
+  private _path: string = '/voucher';
 
-  protected _controller: VoucherController;
+  private _controller: VoucherController;
 
   private _validate: Validate;
 
@@ -17,12 +17,13 @@ export default class VoucherRoutes {
     controller: VoucherController = new VoucherController(),
     validate: Validate = new ValidadeVoucher(),
   ) {
+    this._router = Router();
     this._controller = controller;
     this._validate = validate;
     this._routes();
   }
 
-  protected _routes(): void {
+  private _routes(): void {
     this._router.get(
       `${this._path}/:id`,
       Auth.verifyToken,
@@ -50,5 +51,9 @@ export default class VoucherRoutes {
       Auth.verifyToken,
       this._controller.delete,
     );
+  }
+
+  public get router(): Router {
+    return this._router;
   }
 }
