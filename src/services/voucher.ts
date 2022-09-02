@@ -19,11 +19,11 @@ export default class VoucherService extends Service<IVoucher> {
       addLeadingZeros(currentDate.getMonth() + 2, 2)
     }-${
       voucher.payment_day
-    }`
+    }`;
 
     const nextDate = voucher.form_of_payment === 'Parcelamento'
-    ? formatDateForNextPayment
-    : '';
+      ? formatDateForNextPayment
+      : '';
 
     const setVoucherInfos = {
       ...voucher,

@@ -19,12 +19,14 @@ export default class ServiceController extends Controller<IVoucher> {
     }
   };
 
-  public findByResponsible = async (req: Req, res: Res, next: NextFunction): Promise<typeof res | void> => {
+  public findByResponsible = async (req: Req, res: Res, next: NextFunction): Promise<
+    typeof res | void
+  > => {
     try {
       const { _id } = req.user;
-      const result = await this._service
+      const result = await this._service.findAllByResponsible(_id);
     } catch (error) {
-      
+      next(error);
     }
-  }
+  };
 }

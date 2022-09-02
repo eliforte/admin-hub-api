@@ -17,5 +17,4 @@ export default class UserController extends Controller<IUser> {
       next(error);
     }
   };
-
 }

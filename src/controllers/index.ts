@@ -10,15 +10,17 @@ export default abstract class Controller<T> {
 
   public abstract create(req: Req, res: Res, next: NextFunction): Promise<typeof res | void>;
 
-  public findByResponsible = async (req: Req, res: Res, next: NextFunction): Promise<typeof res | void> => {
+  public findByResponsible = async (req: Req, res: Res, next: NextFunction): Promise<
+    typeof res | void
+  > => {
     try {
       const { _id } = req.user;
-      const result = await this._service.findAllByResponsible(_id)
+      const result = await this._service.findAllByResponsible(_id);
       res.status(200).json(result);
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   public findAll = async (_req: Req, res: Res, next: NextFunction): Promise<typeof res | void> => {
     try {

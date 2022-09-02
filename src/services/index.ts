@@ -11,7 +11,7 @@ export abstract class Service<T> {
   public abstract create(infos: T): Promise<T | IUserServiceCreate>;
 
   public abstract findAll(): Promise<T[]>;
-  
+
   public abstract findAllByResponsible(id: string | undefined): Promise<T[]>
 
   public abstract findById(id: string): Promise<T | null>;

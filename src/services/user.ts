@@ -11,7 +11,9 @@ export default class UserService extends Service<IUser> {
     super(model);
   }
 
-  public findAllByResponsible = async (userId: string): Promise<IUser[]> => this._model.findAllByResponsible(userId);
+  public findAllByResponsible = async (userId: string): Promise<IUser[]> => (
+    this._model.findAllByResponsible(userId)
+  );
 
   public create = async (user: IUser): Promise<IUserServiceCreate> => {
     const { name, email, password } = user;
