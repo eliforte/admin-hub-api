@@ -1,8 +1,9 @@
 import { isValidObjectId } from 'mongoose';
 import VoucherModel from '../models/voucher';
-import { IVoucher } from '../utils/interfaces/IVoucher';
+import { IVoucher, IQuerys } from '../utils/interfaces/IVoucher';
 import { VOUCHER_NOT_EXIST } from '../utils/errors';
 import { addLeadingZeros } from '../helpers/addLeadingZeros';
+import { monthsWithQueryExist, formatMonth } from '../helpers/monthForNewdate';
 
 export default class VoucherService {
   protected _model: VoucherModel;
@@ -36,7 +37,40 @@ export default class VoucherService {
     return newVoucher;
   };
 
-  public findAll = async (): Promise<IVoucher[]> => this._model.findAll();
+  public filterAll = async (infos: IQuerys): Promise<IVoucher[]> => {
+    const {
+      periodFormat,
+      month,
+      paymentMethod,
+      formOfPayment,
+      _id,
+    } = infos;
+
+    const monthForQuery = formatMonth(month);
+    const currentYear = new Date().getFullYear();
+    const regexForDateQuery = periodFormat === 'Ano'
+      ? new RegExp(`${currentYear}`, 'i')
+      : new RegExp(`${currentYear}-${monthForQuery}`);
+
+    const query: any = {
+      last_payment: { $regex: regexForDateQuery },
+      responsible_id: _id,
+    };
+
+    if (paymentMethod !== '') {
+      query.payment_method = paymentMethod;
+    }
+
+    if (formOfPayment !== '') {
+      query.form_of_payment = formOfPayment;
+    }
+    console.log(query);
+
+    const servicesFiltered = await this._model.filterAll(query);
+    console.log(servicesFiltered);
+
+    return servicesFiltered;
+  };
 
   public findAllByResponsible = async (
     userId: string | undefined,

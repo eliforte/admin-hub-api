@@ -1,3 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import { ParsedQs } from 'qs';
+
 export interface IVoucher {
   _id?: string;
   type: string;
@@ -15,4 +18,12 @@ export interface IVoucher {
   responsible_id?: string;
   updated_at: Date,
   created_at: Date,
+}
+
+export interface IQuerys extends ParsedQs {
+  _id?: string;
+  periodFormat: string,
+  month: string;
+  paymentMethod: string;
+  formOfPayment: string;
 }

@@ -25,9 +25,9 @@ export default class VoucherRoutes {
 
   private _routes(): void {
     this._router.get(
-      `${this._path}/:id`,
+      `${this._path}/filter`,
       Auth.verifyToken,
-      this._controller.findOne,
+      this._controller.filterAll,
     );
     this._router.get(
       this._path,
@@ -39,6 +39,11 @@ export default class VoucherRoutes {
       Auth.verifyToken,
       this._validate.validateReqBody,
       this._controller.create,
+    );
+    this._router.get(
+      `${this._path}/:id`,
+      Auth.verifyToken,
+      this._controller.findOne,
     );
     this._router.put(
       `${this._path}/:id`,

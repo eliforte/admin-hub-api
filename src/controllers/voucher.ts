@@ -1,6 +1,6 @@
 import { Request as Req, Response as Res, NextFunction } from 'express';
 import VoucherService from '../services/voucher';
-import { IVoucher } from '../utils/interfaces/IVoucher';
+import { IVoucher, IQuerys } from '../utils/interfaces/IVoucher';
 
 export default class ServiceController {
   protected _service: VoucherService;
@@ -31,9 +31,24 @@ export default class ServiceController {
     }
   };
 
-  public findAll = async (_req: Req, res: Res, next: NextFunction): Promise<typeof res | void> => {
+  public filterAll = async (req: Req<{}, {}, {}, IQuerys>, res: Res, next: NextFunction): Promise<
+    typeof res | void
+  > => {
     try {
-      const result = await this._service.findAll();
+      const {
+        periodFormat,
+        month,
+        paymentMethod,
+        formOfPayment,
+      } = req.query;
+      const { _id } = req.user;
+      const result = await this._service.filterAll({
+        periodFormat,
+        month,
+        paymentMethod,
+        formOfPayment,
+        _id,
+      });
       res.status(200).json(result);
     } catch (error) {
       next(error);
