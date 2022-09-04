@@ -48,9 +48,14 @@ export default class UserService {
 
   public findById = async (id: string): Promise<IUser | null> => this._model.findById(id);
 
-  public update = async (id: string, data: IUser): Promise<IUser | null> => (
-    this._model.update(id, data)
-  );
+  public update = async (id: string, data: IUser): Promise<IUser | null> => {
+    const { password, name, email } = data;
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+
+    const userUpdated = this._model.update(id, { name, email, password: hash });
+    return userUpdated;
+  };
 
   public delete = async (id: string): Promise<IUser | null> => this._model.delete(id);
 }
