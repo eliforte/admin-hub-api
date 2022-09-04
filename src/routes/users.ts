@@ -24,15 +24,20 @@ export default class UserRoutes {
   }
 
   private _routes(): void {
-    this._router.get(
-      `${this._path}/:id`,
-      Auth.verifyToken,
-      this._controller.findOne,
-    );
     this._router.post(
       this._path,
       this._validate.validateReqBody,
       this._controller.create,
+    );
+    this._router.get(
+      this._path,
+      Auth.verifyToken,
+      this._controller.findAll,
+    );
+    this._router.get(
+      `${this._path}/:id`,
+      Auth.verifyToken,
+      this._controller.findOne,
     );
     this._router.put(
       `${this._path}/:id`,

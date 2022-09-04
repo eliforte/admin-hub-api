@@ -17,6 +17,15 @@ export default class UserController {
     }
   };
 
+  public findAll = async (req: Req, res: Res, next: NextFunction): Promise<typeof res | void> => {
+    try {
+      const result = await this._service.findAll();
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public create = async (req: Req, res: Res, next: NextFunction): Promise<typeof res | void> => {
     try {
       const result = await this._service.create(req.body);
