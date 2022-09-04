@@ -245,7 +245,6 @@ Exemplo de URL e corpo da requisição:
 
 Para conseguir todos os comprovantes registrados pelo usuário, precisa-se estar logado. Após o processo para [autorização e validação do usuário](#auth), para conseguir as informações da rota basta fazer uma requisição do método **GET** para o endpoint <code>/voucher</code>. A resposta será os comprovantes de atendimentos registrados **somente por aquele usuário**, nenhum usuário vai ter acesso aos comprovantes de outros usuários.
    
-<code>[https://admin-hub-api.herokuapp.com/users]()</code>
 
 **Exemplo de resposta:**
 ```json
