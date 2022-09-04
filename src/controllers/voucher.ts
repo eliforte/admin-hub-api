@@ -2,7 +2,7 @@ import { Request as Req, Response as Res, NextFunction } from 'express';
 import VoucherService from '../services/voucher';
 import { IVoucher, IQuerys } from '../utils/interfaces/IVoucher';
 
-export default class ServiceController {
+export default class VoucherController {
   protected _service: VoucherService;
 
   constructor(service: VoucherService = new VoucherService()) {
@@ -12,8 +12,8 @@ export default class ServiceController {
   public create = async (req: Req, res: Res, next: NextFunction): Promise<typeof res | void> => {
     try {
       const { _id } = req.user;
-      const result = await this._service.create({ ...req.body, responsible_id: _id } as IVoucher);
-      res.status(201).json({ ...result, message: 'successfully created' });
+      await this._service.create({ ...req.body, responsible_id: _id } as IVoucher);
+      res.status(201).json({ message: 'successfully created' });
     } catch (error) {
       next(error);
     }
