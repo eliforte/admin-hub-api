@@ -27,7 +27,6 @@ Todas as requisições devem ser feitas para o link [admin-hub-api](https://admi
 - [Formatos de erros](#formatos-de-erros)
   - [Erros de validação](#erros-de-validacao)
   - [Regras da aplicação](#regras-da-aplicacao)
-- [Feedbacks](#feedbacks)
 
 ***
 ## **Sobre**
