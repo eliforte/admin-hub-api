@@ -12,7 +12,7 @@ const app = new App();
 mongoose.connect(`${process.env.DB_URL_DEV}`);
 
 const corsOptions = {
-  origin: [`${process.env.CLIENT_URL_PROD}`, 'http://localhost:3000'],
+  origin: ['*'],
 };
 
 app.useCors(corsOptions);
