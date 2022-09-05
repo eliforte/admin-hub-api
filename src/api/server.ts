@@ -10,13 +10,13 @@ dotenv.config();
 const app = new App();
 
 const databaseUrl = process.env.NODE_ENV === 'production'
-  ? process.env.URL_PROD
+  ? process.env.CLIENT_URL_PROD
   : process.env.URL_DEV;
 
 mongoose.connect(`${databaseUrl}`);
 
 const corsOptions = {
-  origin: [`${process.env.URL_PROD}`, `${process.env.URL_DEV}`, 'http://localhost:3000'],
+  origin: [`${process.env.CLIENT_URL_PROD}`, 'http://localhost:3000'],
 };
 
 app.useCors(corsOptions);
