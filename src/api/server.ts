@@ -9,11 +9,7 @@ import ErrorHandler from '../middlewares/errors';
 dotenv.config();
 const app = new App();
 
-const databaseUrl = process.env.NODE_ENV === 'production'
-  ? process.env.CLIENT_URL_PROD
-  : process.env.URL_DEV;
-
-mongoose.connect(`${databaseUrl}`);
+mongoose.connect(`${process.env.DB_URL_DEV}`);
 
 const corsOptions = {
   origin: [`${process.env.CLIENT_URL_PROD}`, 'http://localhost:3000'],
