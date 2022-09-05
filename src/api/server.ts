@@ -12,7 +12,7 @@ const app = new App();
 mongoose.connect(`${process.env.DB_URL_DEV}`);
 
 const corsOptions = {
-  origin: ['*'],
+  origin: '*',
 };
 
 app.useCors(corsOptions);
