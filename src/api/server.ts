@@ -9,7 +9,7 @@ import ErrorHandler from '../middlewares/errors';
 dotenv.config();
 const app = new App();
 
-mongoose.connect(`${process.env.DB_URL_DEV}`);
+mongoose.connect(`${process.env.DB_URL_PROD}`);
 
 const corsOptions = {
   origin: ['*'],
