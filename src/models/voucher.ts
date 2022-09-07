@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { IVoucher, IQuerys, IEditVoucher } from '../utils/interfaces/IVoucher';
+import { IVoucher, IQuerys, IEditVoucherModel } from '../utils/interfaces/IVoucher';
 
 const VoucherSchema = new mongoose.Schema<IVoucher>({
   type: { type: String, required: true },
@@ -12,7 +12,7 @@ const VoucherSchema = new mongoose.Schema<IVoucher>({
   quantity_installments_paid: { type: Number, required: true },
   payment_day: { type: Number, required: true },
   last_payment: { type: String, required: true },
-  next_payment: { type: String },
+  next_payment: { type: String || null },
   installment_value: { type: Number, required: true },
   responsible_id: { type: String, required: true },
   updated_at: { type: Date, require: true },
@@ -44,7 +44,7 @@ export default class VoucherModel {
     return this.document.findById(id);
   }
 
-  public async update(id: string, infos: IEditVoucher): Promise<IVoucher | null> {
+  public async update(id: string, infos: IEditVoucherModel): Promise<IVoucher | null> {
     return this.document.findByIdAndUpdate(id, infos, { new: true });
   }
 

@@ -15,7 +15,10 @@ export default class VoucherService {
 
   public create = async (voucher: IVoucher): Promise<IVoucher> => {
     const currentDate = dayjs(voucher.last_payment).format('DD-MM-YYYY');
-    const formatDateForNextPayment = dayjs(voucher.last_payment).add(1, 'month').format('DD-MM-YYYY');
+    const formatDateForNextPayment = dayjs(voucher.last_payment)
+      .add(Number(voucher.payment_day) + 1, 'days')
+      .add(1, 'month')
+      .format('DD-MM-YYYY');
 
     const setVoucherInfos = {
       ...voucher,
@@ -73,15 +76,17 @@ export default class VoucherService {
   };
 
   public update = async (id: string, voucher: IEditVoucher): Promise<IVoucher | null> => {
-    const { last_payment, quantity_installments_paid } = voucher;
     if (!isValidObjectId(id)) throw VOUCHER_NOT_EXIST;
-    const lastPayment = dayjs(last_payment).format('DD-MM-YYYY');
-    const nextPayment = dayjs(last_payment).add(quantity_installments_paid, 'months').format('DD-MM-YYYY');
+    const olderVoucher = await this._model.findById(id);
+    const lastPayment = dayjs(voucher.last_payment).format('DD-MM-YYYY');
+    const nextPayment = dayjs(voucher.last_payment).add(voucher.quantity_installments_paid, 'months').format('DD-MM-YYYY');
+    const newQuantityInstallments = olderVoucher
+      && olderVoucher.quantity_installments_paid + voucher.quantity_installments_paid;
 
     const infosForUpdate = {
       last_payment: lastPayment,
       next_payment: nextPayment,
-      quantity_installments_paid,
+      quantity_installments_paid: newQuantityInstallments,
     };
 
     const updatedVoucher = await this._model.update(id, infosForUpdate);

@@ -32,3 +32,9 @@ export interface IEditVoucher {
   quantity_installments_paid: number;
   last_payment: string;
 }
+
+export interface IEditVoucherModel {
+  quantity_installments_paid: number | null;
+  last_payment: string;
+  next_payment: string;
+}
