@@ -2,14 +2,15 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production';
-      MYSQL_HOST: string;
-      MYSQL_PORT: string;
-      MYSQL_DB_NAME: string;
-      MYSQL_USER: string;
-      MYSQL_PASSWORD: string;
+      DB_HOST: string;
+      DB_PORT: string;
+      DB_NAME: string;
+      DB_USER: string;
+      DB_PASSWORD: string;
       PORT: string;
-      URL_PROD: string;
-      URL_DEV: string;
+      DB_URL_PROD: string;
+      DB_URL_DEV: string;
+      CLIENT_URL_PROD: string;
       SECRET: string;
     }
   }
