@@ -15,7 +15,7 @@ export default class VoucherService {
 
   public create = async (voucher: IVoucher): Promise<IVoucher> => {
     const currentDate = dayjs(voucher.last_payment).format('DD-MM-YYYY');
-    const formatDateForNextPayment = dayjs(voucher.last_payment).add(30, 'days').format('DD-MM-YYYY');
+    const formatDateForNextPayment = dayjs(voucher.last_payment).add(1, 'month').format('DD-MM-YYYY');
 
     const setVoucherInfos = {
       ...voucher,
