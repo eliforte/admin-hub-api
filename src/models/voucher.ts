@@ -1,5 +1,5 @@
 import mongoose, { Model } from 'mongoose';
-import { IVoucher, IQuerys } from '../utils/interfaces/IVoucher';
+import { IVoucher, IQuerys, IEditVoucher } from '../utils/interfaces/IVoucher';
 
 const VoucherSchema = new mongoose.Schema<IVoucher>({
   type: { type: String, required: true },
@@ -44,7 +44,7 @@ export default class VoucherModel {
     return this.document.findById(id);
   }
 
-  public async update(id: string, infos: IVoucher): Promise<IVoucher | null> {
+  public async update(id: string, infos: IEditVoucher): Promise<IVoucher | null> {
     return this.document.findByIdAndUpdate(id, infos, { new: true });
   }
 

@@ -1,6 +1,7 @@
 import { isValidObjectId } from 'mongoose';
+import dayjs from 'dayjs';
 import VoucherModel from '../models/voucher';
-import { IVoucher, IQuerys } from '../utils/interfaces/IVoucher';
+import { IVoucher, IQuerys, IEditVoucher } from '../utils/interfaces/IVoucher';
 import { VOUCHER_NOT_EXIST } from '../utils/errors';
 import { addLeadingZeros } from '../helpers/addLeadingZeros';
 import { monthsWithQueryExist, formatMonth } from '../helpers/monthForNewdate';
@@ -13,24 +14,15 @@ export default class VoucherService {
   }
 
   public create = async (voucher: IVoucher): Promise<IVoucher> => {
-    const currentDate = new Date();
-    const formatDateForNextPayment = `${
-      currentDate.getFullYear()
-    }-${
-      addLeadingZeros(currentDate.getMonth() + 2, 2)
-    }-${
-      voucher.payment_day
-    }`;
-
-    const nextDate = voucher.form_of_payment === 'Parcelamento'
-      ? formatDateForNextPayment
-      : '';
+    const currentDate = dayjs(voucher.last_payment).format('DD-MM-YYYY');
+    const formatDateForNextPayment = dayjs(voucher.last_payment).add(30, 'days').format('DD-MM-YYYY');
 
     const setVoucherInfos = {
       ...voucher,
+      last_payment: currentDate,
       updatedAt: null,
       quantity_installments: voucher.quantity_installments || 0,
-      next_payment: nextDate,
+      next_payment: formatDateForNextPayment,
     } as IVoucher;
 
     const newVoucher = await this._model.create(setVoucherInfos);
@@ -50,7 +42,7 @@ export default class VoucherService {
     const currentYear = new Date().getFullYear();
     const regexForDateQuery = periodFormat === 'Ano'
       ? new RegExp(`${currentYear}`, 'i')
-      : new RegExp(`${currentYear}-${monthForQuery}`);
+      : new RegExp(`${monthForQuery}-${currentYear}`);
 
     const query: any = {
       last_payment: { $regex: regexForDateQuery },
@@ -64,10 +56,8 @@ export default class VoucherService {
     if (formOfPayment !== '') {
       query.form_of_payment = formOfPayment;
     }
-    console.log(query);
 
     const servicesFiltered = await this._model.filterAll(query);
-    console.log(servicesFiltered);
 
     return servicesFiltered;
   };
@@ -82,10 +72,19 @@ export default class VoucherService {
     return findVoucher;
   };
 
-  public update = async (id: string, voucher: IVoucher): Promise<IVoucher | null> => {
+  public update = async (id: string, voucher: IEditVoucher): Promise<IVoucher | null> => {
+    const { last_payment, quantity_installments_paid } = voucher;
     if (!isValidObjectId(id)) throw VOUCHER_NOT_EXIST;
-    voucher.updated_at = new Date();
-    const updatedVoucher = await this._model.update(id, voucher);
+    const lastPayment = dayjs(last_payment).format('DD-MM-YYYY');
+    const nextPayment = dayjs(last_payment).add(quantity_installments_paid, 'months').format('DD-MM-YYYY');
+
+    const infosForUpdate = {
+      last_payment: lastPayment,
+      next_payment: nextPayment,
+      quantity_installments_paid,
+    };
+
+    const updatedVoucher = await this._model.update(id, infosForUpdate);
     return updatedVoucher;
   };
 

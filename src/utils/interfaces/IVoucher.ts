@@ -27,3 +27,8 @@ export interface IQuerys extends ParsedQs {
   paymentMethod: string;
   formOfPayment: string;
 }
+
+export interface IEditVoucher {
+  quantity_installments_paid: number;
+  last_payment: string;
+}

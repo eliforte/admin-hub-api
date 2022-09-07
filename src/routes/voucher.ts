@@ -2,6 +2,7 @@ import { Router } from 'express';
 import VoucherController from '../controllers/voucher';
 import Validate from '../middlewares/validations/validate';
 import ValidadeVoucher from '../middlewares/validations/voucher';
+import ValidateEditVoucher from '../middlewares/validations/updateVoucher';
 import Auth from '../utils/auth/token';
 
 export default class VoucherRoutes {
@@ -13,13 +14,17 @@ export default class VoucherRoutes {
 
   private _validate: Validate;
 
+  private _validateUpdate: Validate;
+
   constructor(
     controller: VoucherController = new VoucherController(),
     validate: Validate = new ValidadeVoucher(),
+    updateVoucher: Validate = new ValidateEditVoucher(),
   ) {
     this._router = Router();
     this._controller = controller;
     this._validate = validate;
+    this._validateUpdate = updateVoucher;
     this._routes();
   }
 
@@ -48,7 +53,7 @@ export default class VoucherRoutes {
     this._router.put(
       `${this._path}/:id`,
       Auth.verifyToken,
-      this._validate.validateReqBody,
+      this._validateUpdate.validateReqBody,
       this._controller.update,
     );
     this._router.delete(
