@@ -404,6 +404,51 @@ Exemplo do corpo da requisição:
 **Formatos de erros que podem acontecer**
   - [Erros de validação](#erros-de-validacao)
   - [Erros de autenticação](#erros-de-autenticacao)
+
+<br>
+
+## <code>/voucher - PUT</code><a name="voucher-put"></a>
+
+Para adicionar pagamentos de uma parte do parcelamento, precisa-se estar logado. Após o processo para [autorização e validação do usuário](#auth), para conseguir as informações da rota basta fazer uma requisição do método **PUT** para o endpoint <code>/voucher/:id</code>, com as informações do atendimento no corpo da requisição e o *id* do voucher nos parâmetros da URL. 
+
+Exemplo do corpo da requisição e URL:
+
+[https://admin-hub-api.herokuapp.com/voucher/631a3b48009e63a1b32c540a]()
+
+```json
+{
+    "last_payment": "2022-09-03",
+    "quantity_installments_paid": 1,
+}
+```
+
+**Exemplo de resposta:**
+```json
+{
+    {
+    "result": {
+        "_id": "631a3dd1009e63a1b32c5425",
+        "type": "test",
+        "pacient_fullname": "teste",
+        "plan": "teste",
+        "payment_method": "Cartão de crédito",
+        "form_of_payment": "Parcelamento",
+        "quantity_installments": 2,
+        "total": 130.38,
+        "quantity_installments_paid": 2,
+        "payment_day": 5,
+        "last_payment": "03-09-2022",
+        "next_payment": null,
+        "installment_value": 65.19,
+        "responsible_id": "630d42b9a071485fa3dd138a"
+    },
+    "message": "successfully updated"
+}
+```
+
+**Formatos de erros que podem acontecer**
+  - [Erros de validação](#erros-de-validacao)
+  - [Erros de autenticação](#erros-de-autenticacao)
   
 <br>
 
