@@ -407,7 +407,7 @@ Exemplo do corpo da requisição:
 
 <br>
 
-## <code>/voucher - PUT</code><a name="voucher-put"></a>
+## <code>/voucher - PUT</code><a name="voucher-id-put"></a>
 
 Para adicionar pagamentos de uma parte do parcelamento, precisa-se estar logado. Após o processo para [autorização e validação do usuário](#auth), para conseguir as informações da rota basta fazer uma requisição do método **PUT** para o endpoint <code>/voucher/:id</code>, com as informações do atendimento no corpo da requisição e o *id* do voucher nos parâmetros da URL. 
 
