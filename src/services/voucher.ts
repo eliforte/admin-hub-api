@@ -3,8 +3,7 @@ import dayjs from 'dayjs';
 import VoucherModel from '../models/voucher';
 import { IVoucher, IQuerys, IEditVoucher } from '../utils/interfaces/IVoucher';
 import { VOUCHER_NOT_EXIST } from '../utils/errors';
-import { addLeadingZeros } from '../helpers/addLeadingZeros';
-import { monthsWithQueryExist, formatMonth } from '../helpers/monthForNewdate';
+import { formatMonth } from '../helpers/monthForNewdate';
 
 export default class VoucherService {
   protected _model: VoucherModel;
@@ -14,18 +13,20 @@ export default class VoucherService {
   }
 
   public create = async (voucher: IVoucher): Promise<IVoucher> => {
-    const currentDate = dayjs(voucher.last_payment).format('DD-MM-YYYY');
-    const formatDateForNextPayment = dayjs(voucher.last_payment)
-      .add(Number(voucher.payment_day) + 1, 'days')
+    const currentDate = dayjs(voucher.last_payment).format();
+    const lastPayment = dayjs(voucher.last_payment).format('DD-MM-YYYY');
+
+    const nextDatePayment = dayjs(currentDate)
+      .add(Number(voucher.payment_day) - 1, 'days')
       .add(1, 'month')
       .format('DD-MM-YYYY');
 
     const setVoucherInfos = {
       ...voucher,
-      last_payment: currentDate,
+      last_payment: lastPayment,
       updatedAt: null,
       quantity_installments: voucher.quantity_installments || 0,
-      next_payment: formatDateForNextPayment,
+      next_payment: nextDatePayment,
     } as IVoucher;
 
     const newVoucher = await this._model.create(setVoucherInfos);
@@ -79,9 +80,11 @@ export default class VoucherService {
     if (!isValidObjectId(id)) throw VOUCHER_NOT_EXIST;
     const olderVoucher = await this._model.findById(id);
     const lastPayment = dayjs(voucher.last_payment).format('DD-MM-YYYY');
-    const nextPayment = dayjs(voucher.last_payment).add(voucher.quantity_installments_paid, 'months').format('DD-MM-YYYY');
     const newQuantityInstallments = olderVoucher
       && olderVoucher.quantity_installments_paid + voucher.quantity_installments_paid;
+    const nextPayment = olderVoucher && dayjs(olderVoucher.next_payment)
+      .add(voucher.quantity_installments_paid, 'months')
+      .format('DD-MM-YYYY');
 
     const infosForUpdate = {
       last_payment: lastPayment,

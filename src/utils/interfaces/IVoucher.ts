@@ -36,5 +36,5 @@ export interface IEditVoucher {
 export interface IEditVoucherModel {
   quantity_installments_paid: number | null;
   last_payment: string;
-  next_payment: string;
+  next_payment: string | null;
 }
