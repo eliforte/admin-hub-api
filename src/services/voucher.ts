@@ -80,11 +80,20 @@ export default class VoucherService {
     if (!isValidObjectId(id)) throw VOUCHER_NOT_EXIST;
     const olderVoucher = await this._model.findById(id);
     const lastPayment = dayjs(voucher.last_payment).format('DD-MM-YYYY');
+
     const newQuantityInstallments = olderVoucher
       && olderVoucher.quantity_installments_paid + voucher.quantity_installments_paid;
-    const nextPayment = olderVoucher && dayjs(olderVoucher.next_payment)
+
+    const formatNextPayment = olderVoucher && dayjs(olderVoucher.next_payment)
       .add(voucher.quantity_installments_paid, 'months')
       .format('DD-MM-YYYY');
+
+    const quantityInstallmentsPaid = olderVoucher
+    && voucher.quantity_installments_paid + olderVoucher.quantity_installments_paid;
+
+    const nextPayment = quantityInstallmentsPaid === olderVoucher?.quantity_installments
+      ? null
+      : formatNextPayment;
 
     const infosForUpdate = {
       last_payment: lastPayment,
